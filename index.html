@@ -238,19 +238,19 @@
         let selectedTile = null;
         let isAnimating = false;
 
-        // Background music - replace with your own GitHub raw link
-        const bgMusic = new Audio('https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/background-music.mp3');
+        // Background music
+        const bgMusic = new Audio('https://github.com/TitanBusinessPros/Match-3/raw/main/Shimmer%20and%20Match.mp3');
         bgMusic.loop = true;
         bgMusic.volume = 0.3;
 
-        // Play background music on first interaction
         let musicStarted = false;
-        document.addEventListener('click', () => {
+
+        function startMusic() {
             if (!musicStarted) {
-                bgMusic.play().catch(e => console.log('Music autoplay prevented'));
                 musicStarted = true;
+                bgMusic.play().catch(e => console.log('Music autoplay prevented:', e));
             }
-        }, { once: true });
+        }
 
         // Sound effect for matches using Web Audio API
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -312,6 +312,8 @@
 
         function selectTile(row, col) {
             if (isAnimating) return;
+            
+            startMusic(); // Start music on first click
             
             const tile = getTileElement(row, col);
             
