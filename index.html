@@ -463,15 +463,111 @@
             }
         }
 
+        function updateProgress() {
+            const progress = Math.min((score / targetScore) * 100, 100);
+            const progressEl = document.getElementById('progress');
+            progressEl.style.width = progress + '%';
+            progressEl.textContent = Math.floor(progress) + '%';
+        }
+
+        function showLevelComplete() {
+            isAnimating = true;
+            const modal = document.getElementById('levelComplete');
+            const text = document.getElementById('levelCompleteText');
+            
+            if (level >= MAX_LEVEL) {
+                text.textContent = `🎊 Congratulations! You've completed all ${MAX_LEVEL} levels! 🎊`;
+                modal.querySelector('button').textContent = 'Play Again';
+            } else {
+                text.textContent = `You reached ${score} points! Moving to Level ${level + 1}`;
+            }
+            
+            modal.classList.add('show');
+        }
+
+        function nextLevel() {
+            const modal = document.getElementById('levelComplete');
+            modal.classList.remove('show');
+            
+            if (level >= MAX_LEVEL) {
+                resetGame();
+                return;
+            }
+            
+            level++;
+            targetScore = level * 500;
+            score = 0;
+            
+            document.getElementById('level').textContent = level;
+            document.getElementById('target').textContent = targetScore;
+            document.getElementById('score').textContent = score;
+            updateProgress();
+            
+            selectedTile = null;
+            isAnimating = false;
+            createGrid();
+        }
+
         function resetGame() {
             score = 0;
+            level = 1;
+            targetScore = 500;
             document.getElementById('score').textContent = score;
+            document.getElementById('level').textContent = level;
+            document.getElementById('target').textContent = targetScore;
+            updateProgress();
+            selectedTile = null;
+            isAnimating = false;
+            createGrid();
+        }
+
+        function updateProgress() {
+            const progress = Math.min((score / targetScore) * 100, 100);
+            const progressEl = document.getElementById('progress');
+            progressEl.style.width = progress + '%';
+            progressEl.textContent = Math.floor(progress) + '%';
+        }
+
+        function showLevelComplete() {
+            isAnimating = true;
+            const modal = document.getElementById('levelComplete');
+            const text = document.getElementById('levelCompleteText');
+            
+            if (level >= MAX_LEVEL) {
+                text.textContent = `🎊 Congratulations! You've completed all ${MAX_LEVEL} levels! 🎊`;
+                modal.querySelector('button').textContent = 'Play Again';
+            } else {
+                text.textContent = `You reached ${score} points! Moving to Level ${level + 1}`;
+            }
+            
+            modal.classList.add('show');
+        }
+
+        function nextLevel() {
+            const modal = document.getElementById('levelComplete');
+            modal.classList.remove('show');
+            
+            if (level >= MAX_LEVEL) {
+                resetGame();
+                return;
+            }
+            
+            level++;
+            targetScore = level * 500;
+            score = 0;
+            
+            document.getElementById('level').textContent = level;
+            document.getElementById('target').textContent = targetScore;
+            document.getElementById('score').textContent = score;
+            updateProgress();
+            
             selectedTile = null;
             isAnimating = false;
             createGrid();
         }
 
         createGrid();
+        updateProgress();
     </script>
 </body>
 </html>
