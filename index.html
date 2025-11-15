@@ -135,6 +135,40 @@
         let selectedTile = null;
         let isAnimating = false;
 
+        // Background music - replace with your own GitHub raw link
+        const bgMusic = new Audio('https://github.com/TitanBusinessPros/Match-3/raw/main/Shimmer%20and%20Match.mp3');
+        bgMusic.loop = true;
+        bgMusic.volume = 0.3;
+
+        // Play background music on first interaction
+        let musicStarted = false;
+        document.addEventListener('click', () => {
+            if (!musicStarted) {
+                bgMusic.play().catch(e => console.log('Music autoplay prevented'));
+                musicStarted = true;
+            }
+        }, { once: true });
+
+        // Sound effect for matches using Web Audio API
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playMatchSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        }
+
         function createGrid() {
             const gridEl = document.getElementById('grid');
             gridEl.innerHTML = '';
@@ -255,6 +289,9 @@
                 isAnimating = false;
                 return;
             }
+            
+            // Play match sound!
+            playMatchSound();
             
             score += matches.length * 10;
             document.getElementById('score').textContent = score;
