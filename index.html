@@ -238,7 +238,38 @@
     <script>
         const GRID_SIZE = 8;
         const COLORS = 6;
-        const gems = ['💎', '🔷', '⭐', '💜', '🌸', '🔵'];
+        const gemsPerLevel = [
+            ['💎', '🔷', '⭐', '💜', '🌸', '🔵'],           // Level 1
+            ['💎', '🔷', '⭐', '💜', '💚', '🔴'],           // Level 2 - Green heart & Red diamond
+            ['💎', '🔷', '⭐', '💜', '💚', '🔴'],           // Level 3
+            ['🔶', '🔷', '⭐', '💜', '💚', '🔴'],           // Level 4 - Orange diamond
+            ['🔶', '🔷', '⭐', '💜', '💚', '🔴'],           // Level 5
+            ['🔶', '🔷', '⭐', '🧡', '💚', '🔴'],           // Level 6 - Orange heart
+            ['🔶', '🔷', '⭐', '🧡', '💚', '🔴'],           // Level 7
+            ['🔶', '🔷', '✨', '🧡', '💚', '🔴'],           // Level 8 - Sparkles
+            ['🔶', '🔷', '✨', '🧡', '💚', '🔴'],           // Level 9
+            ['🔶', '💠', '✨', '🧡', '💚', '🔴'],           // Level 10 - Diamond with dot
+            ['🔶', '💠', '✨', '🧡', '💚', '🔴'],           // Level 11
+            ['🔶', '💠', '✨', '🧡', '💛', '🔴'],           // Level 12 - Yellow heart
+            ['🔶', '💠', '✨', '🧡', '💛', '🔴'],           // Level 13
+            ['🟠', '💠', '✨', '🧡', '💛', '🔴'],           // Level 14 - Orange circle
+            ['🟠', '💠', '✨', '🧡', '💛', '🔴'],           // Level 15
+            ['🟠', '💠', '✨', '🧡', '💛', '🟥'],           // Level 16 - Red square
+            ['🟠', '💠', '✨', '🧡', '💛', '🟥'],           // Level 17
+            ['🟠', '💠', '🌟', '🧡', '💛', '🟥'],           // Level 18 - Glowing star
+            ['🟠', '💠', '🌟', '🧡', '💛', '🟥'],           // Level 19
+            ['🟠', '🔵', '🌟', '🧡', '💛', '🟥'],           // Level 20 - Blue circle
+            ['🟠', '🔵', '🌟', '🧡', '💛', '🟥'],           // Level 21
+            ['🟠', '🔵', '🌟', '💙', '💛', '🟥'],           // Level 22 - Blue heart
+            ['🟠', '🔵', '🌟', '💙', '💛', '🟥'],           // Level 23
+            ['🟠', '🔵', '🌟', '💙', '🟡', '🟥'],           // Level 24 - Yellow circle
+            ['🟠', '🔵', '🌟', '💙', '🟡', '🟥'],           // Level 25
+            ['🟣', '🔵', '🌟', '💙', '🟡', '🟥'],           // Level 26 - Purple circle
+            ['🟣', '🔵', '🌟', '💙', '🟡', '🟥'],           // Level 27
+            ['🟣', '🔵', '🌟', '💙', '🟡', '🟢'],           // Level 28 - Green circle
+            ['🟣', '🔵', '🌟', '💙', '🟡', '🟢'],           // Level 29
+            ['🟣', '⚡', '🌟', '💙', '🟡', '🟢']            // Level 30 - Lightning bolt!
+        ];
         const MAX_LEVEL = 30;
         
         let grid = [];
@@ -247,6 +278,7 @@
         let targetScore = 500;
         let selectedTile = null;
         let isAnimating = false;
+        let gems = gemsPerLevel[0]; // Start with level 1 gems
 
         // Background music
         const bgMusic = new Audio('https://github.com/TitanBusinessPros/Match-3/raw/main/Shimmer%20and%20Match.mp3');
@@ -286,6 +318,9 @@
             const gridEl = document.getElementById('grid');
             gridEl.innerHTML = '';
             grid = [];
+            
+            // Update gems for current level
+            gems = gemsPerLevel[level - 1];
             
             for (let row = 0; row < GRID_SIZE; row++) {
                 grid[row] = [];
